@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="he">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>דף נחיתה לפודקאסט - פרק 1</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body dir="rtl">
+    <div class="container">
+        <h1>פודקאסט SLICED</h1>
+        <h1>על פיקוד במילואים</h1>
+        <hr>
+        <h2>כינוס קודקודים</h2>
+        <h3>פרק 1 - גונן דסלר</h3>
+        <div class="bottom" style="text-align: center;">
+           <center><iframe id="player" width="370" height="208" src="https://www.youtube.com/embed/1h33Ru31DNg?enablejsapi=1&autoplay=1" title="YouTube video player" frameborder="0" allow="autoplay; encrypted-media" allowfullscreen></iframe></center>
+        </div>
+        <div class="grid">
+            <a class="box" data-start="87">
+                <h2>היכרות עם גונן דסלר</h2>
+                <p>01:27</p>
+            </a>
+            <a class="box" data-start="215">
+                <h2>פיקוד במילואים מול בסדיר</h2>
+                <p>03:35</p>
+            </a>
+            <a class="box" data-start="300">
+                <h2>קבלת תפקיד המג"ד</h2>
+                <p>05:00</p>
+            </a>
+            <a class="box" data-start="489">
+                <h2>השביעי באוקטובר - פרוץ המלחמה</h2>
+                <p>08:09</p>
+            </a>
+            <a class="box" data-start="959">
+                <h2>אתגרי הפיקוד בלחימה</h2>
+                <p>15:59</p>
+            </a>
+            <a class="box" data-start="1206">
+                <h2>הסתגלות לאיומים חדשים</h2>
+                <p>20:06</p>
+            </a>
+            <a class="box" data-start="1564">
+                <h2>מורל החיילים והתמודדות</h2>
+                <p>26:04</p>
+            </a>
+            <a class="box" data-start="1912">
+                <h2>שמירה על מקצוענות</h2>
+                <p>31:52</p>
+            </a>
+            <a class="box" data-start="3069">
+                <h2>תובנות וסיכום אישי</h2>
+                <p>51:09</p>
+            </a>
+        </div>
+    </div>
+
+    <!-- טעינת YouTube IFrame API -->
+    <script src="https://www.youtube.com/iframe_api"></script>
+    <script>
+        let player;
+
+        // פונקציה זו חייבת להיות בתחום הגלובלי
+        function onYouTubeIframeAPIReady() {
+            player = new YT.Player('player', {
+                events: {
+                    'onReady': onPlayerReady,
+                }
+            });
+        }
+
+        function onPlayerReady(event) {
+            // התחלת הסרטון באופן אוטומטי ללא השתקה
+            player.playVideo();
+
+            const sectionLinks = document.querySelectorAll('.box');
+            sectionLinks.forEach(link => {
+                link.addEventListener('click', (e) => {
+                    e.preventDefault(); // מניעת התנהגות ברירת מחדל של הקישור
+                    const startTime = link.getAttribute('data-start');
+                    player.seekTo(parseInt(startTime), true);
+                    player.playVideo();
+                });
+            });
+        }
+    </script>
+</body>
+</html>
