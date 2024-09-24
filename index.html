@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>דף נחיתה לפודקאסט - פרק 4</title>
-    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="style.css">
 </head>
 <body dir="rtl">
     <div class="container">
@@ -17,41 +17,41 @@
            <center><iframe id="player" width="370" height="208" src="https://www.youtube.com/embed/1h33Ru31DNg?enablejsapi=1&autoplay=1" title="YouTube video player" frameborder="0" allow="autoplay; encrypted-media" allowfullscreen></iframe></center>
         </div>
         <div class="grid">
-            <a class="box" data-start="87">
+            <a class="box" data-start="87" data-end="215">
                 <h2>המג"ד גונן דסלר</h2>
-                <p>01:27</p>
+                <p>01:27 - 03:35</p>
             </a>
-            <a class="box" data-start="215">
+            <a class="box" data-start="215" data-end="300">
                 <h2>פיקוד במילואים</h2>
-                <p>03:35</p>
+                <p>03:35 - 05:00</p>
             </a>
-            <a class="box" data-start="300">
-                <h2>קבלת תפקיד המג"ד</h2>
-                <p>05:00</p>
+            <a class="box" data-start="300" data-end="489">
+                <h2>תפקיד המג"ד</h2>
+                <p>05:00 - 08:09</p>
             </a>
-            <a class="box" data-start="489">
+            <a class="box" data-start="489" data-end="959">
                 <h2>ה 7 באוקטובר</h2>
-                <p>08:09</p>
+                <p>08:09 - 15:59</p>
             </a>
-            <a class="box" data-start="959">
-                <h2>אתגרי הפיקוד בלחימה</h2>
-                <p>15:59</p>
+            <a class="box" data-start="959" data-end="1206">
+                <h2>אתגרי הפיקוד </h2>
+                <p>15:59 - 20:06</p>
             </a>
-            <a class="box" data-start="1206">
-                <h2>הסתגלות לאיומים חדשים</h2>
-                <p>20:06</p>
+            <a class="box" data-start="1206" data-end="1564">
+                <h2>הסתגלות לאיומים</h2>
+                <p>20:06 - 26:04</p>
             </a>
-            <a class="box" data-start="1564">
-                <h2>מורל החיילים והתמודדות</h2>
-                <p>26:04</p>
+            <a class="box" data-start="1564" data-end="1912">
+                <h2>מורל החיילים </h2>
+                <p>26:04 - 31:52</p>
             </a>
-            <a class="box" data-start="1912">
-                <h2>שמירה על מקצוענות</h2>
-                <p>31:52</p>
+            <a class="box" data-start="1912" data-end="3069">
+                <h2>שימור מקצוענות</h2>
+                <p>31:52 - 51:09</p>
             </a>
-            <a class="box" data-start="3069">
-                <h2>תובנות וסיכום אישי</h2>
-                <p>51:09</p>
+            <a class="box" data-start="3069" data-end="3589">
+                <h2>תובנות וסיכום</h2>
+                <p>51:09 - 59:49</p>
             </a>
         </div>
     </div>
@@ -60,12 +60,15 @@
     <script src="https://www.youtube.com/iframe_api"></script>
     <script>
         let player;
+        let endTime = null;
+        let checkInterval = null;
 
         // פונקציה זו חייבת להיות בתחום הגלובלי
         function onYouTubeIframeAPIReady() {
             player = new YT.Player('player', {
                 events: {
                     'onReady': onPlayerReady,
+                    'onStateChange': onPlayerStateChange,
                 }
             });
         }
@@ -78,11 +81,34 @@
             sectionLinks.forEach(link => {
                 link.addEventListener('click', (e) => {
                     e.preventDefault(); // מניעת התנהגות ברירת מחדל של הקישור
-                    const startTime = link.getAttribute('data-start');
-                    player.seekTo(parseInt(startTime), true);
+                    const startTime = parseInt(link.getAttribute('data-start'));
+                    endTime = parseInt(link.getAttribute('data-end'));
+                    player.seekTo(startTime, true);
                     player.playVideo();
+
+                    // אם יש טיימר פעיל, ננקה אותו
+                    if (checkInterval) {
+                        clearInterval(checkInterval);
+                    }
+
+                    // נבדוק כל שנייה אם הגענו לזמן הסיום
+                    checkInterval = setInterval(() => {
+                        if (player.getCurrentTime() >= endTime) {
+                            player.pauseVideo();
+                            clearInterval(checkInterval);
+                        }
+                    }, 1000);
                 });
             });
+        }
+
+        function onPlayerStateChange(event) {
+            // אם הסרטון נעצר או הסתיים, ננקה את הטיימר
+            if (event.data == YT.PlayerState.PAUSED || event.data == YT.PlayerState.ENDED) {
+                if (checkInterval) {
+                    clearInterval(checkInterval);
+                }
+            }
         }
     </script>
 </body>
