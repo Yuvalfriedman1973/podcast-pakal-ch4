@@ -17,6 +17,7 @@ body {
 }
 
 .container h2 {
+    font-size: 15px;
     text-align: center;
     color: #61ad9c;
     padding: 0;
@@ -24,6 +25,7 @@ body {
 }
 
 .container h3 {
+    font-size: 15px;
     text-align: center;
     color: #61ad9c;
     padding: 0;
