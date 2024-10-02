@@ -32,6 +32,13 @@ body {
     margin: 0;
 }
 
+.image2 {
+    float: left;
+    width: 80px;
+    margin: 0;
+    padding: 0;
+}
+
 .grid {
     display: grid;
     background: #61ad9c;
