@@ -14,44 +14,44 @@
         <hr>
         <h3>פרק 4 - הפיקוד כיצירת בהירות תוך כדי לחימה</h3>
         <div class="bottom" style="text-align: center;">
-           <center><iframe id="player" width="370" height="208" src="https://www.youtube.com/embed/1h33Ru31DNg?enablejsapi=1&autoplay=1" title="YouTube video player" frameborder="0" allow="autoplay; encrypted-media" allowfullscreen></iframe></center>
+           <center><iframe id="player" width="370" height="208" src="https://www.youtube.com/embed/1h33Ru31DNg?enablejsapi=1" title="YouTube video player" frameborder="0" allow="autoplay; encrypted-media" allowfullscreen></iframe></center>
         </div>
         <div class="grid">
-            <a class="box" data-start="87" data-end="215">
+            <a class="box" data-start="93" data-end="215">
                 <h2>המג"ד גונן דסלר</h2>
-                <p>01:27 - 03:35</p>
+                <p>01:33 - 03:35</p>
             </a>
-            <a class="box" data-start="215" data-end="300">
-                <h2>פיקוד במילואים</h2>
-                <p>03:35 - 05:00</p>
+            <a class="box" data-start="215" data-end="486">
+                <h2>איוש תפקיד המג"ד</h2>
+                <p>03:35 - 08:06</p>
             </a>
-            <a class="box" data-start="300" data-end="489">
-                <h2>תפקיד המג"ד</h2>
-                <p>05:00 - 08:09</p>
+            <a class="box" data-start="510" data-end="960">
+                <h2>בין סדיר למילואים</h2>
+                <p>08:30 - 16:00</p>
             </a>
-            <a class="box" data-start="489" data-end="959">
+            <a class="box" data-start="960" data-end="1300">
                 <h2>ה 7 באוקטובר</h2>
-                <p>08:09 - 15:59</p>
+                <p>16:00 - 21:40</p>
             </a>
-            <a class="box" data-start="959" data-end="1206">
+            <a class="box" data-start="1300" data-end="1879">
                 <h2>אתגרי הפיקוד </h2>
-                <p>15:59 - 20:06</p>
+                <p>21:40 - 31:19</p>
             </a>
-            <a class="box" data-start="1206" data-end="1564">
-                <h2>הסתגלות לאיומים</h2>
-                <p>20:06 - 26:04</p>
+            <a class="box" data-start="1879" data-end="2660">
+                <h2>אמצע נובמבר</h2>
+                <p>31:19 - 44:20</p>
             </a>
-            <a class="box" data-start="1564" data-end="1912">
-                <h2>מורל החיילים </h2>
-                <p>26:04 - 31:52</p>
+            <a class="box" data-start="2660" data-end="2977">
+                <h2>הסיפור המארגן</h2>
+                <p>41:20 - 49:37</p>
             </a>
-            <a class="box" data-start="1912" data-end="3069">
-                <h2>שימור מקצוענות</h2>
-                <p>31:52 - 51:09</p>
+            <a class="box" data-start="2977" data-end="3199">
+                <h2>קשר עם המשפחות</h2>
+                <p>49:37 - 53:19</p>
             </a>
-            <a class="box" data-start="3069" data-end="3589">
-                <h2>תובנות וסיכום</h2>
-                <p>51:09 - 59:49</p>
+            <a class="box" data-start="3199" data-end="3618">
+                <h2>תובנות וטיפים</h2>
+                <p>53:19 - סיום</p>
             </a>
         </div>
     </div>
@@ -74,9 +74,7 @@
         }
 
         function onPlayerReady(event) {
-            // התחלת הסרטון באופן אוטומטי ללא השתקה
-            player.playVideo();
-
+            // תחילת הסרטון רק לאחר לחיצה על קישור ולא אוטומטית
             const sectionLinks = document.querySelectorAll('.box');
             sectionLinks.forEach(link => {
                 link.addEventListener('click', (e) => {
@@ -84,7 +82,7 @@
                     const startTime = parseInt(link.getAttribute('data-start'));
                     endTime = parseInt(link.getAttribute('data-end'));
                     player.seekTo(startTime, true);
-                    player.playVideo();
+                    player.playVideo(); // הפעלת הווידאו אוטומטית מיד לאחר חיפוש הזמן
 
                     // אם יש טיימר פעיל, ננקה אותו
                     if (checkInterval) {
@@ -104,4 +102,10 @@
 
         function onPlayerStateChange(event) {
             // אם הסרטון נעצר או הסתיים, ננקה את הטיימר
-            if 
+            if (event.data === YT.PlayerState.PAUSED || event.data === YT.PlayerState.ENDED) {
+                clearInterval(checkInterval);
+            }
+        }
+    </script>
+</body>
+</html>
